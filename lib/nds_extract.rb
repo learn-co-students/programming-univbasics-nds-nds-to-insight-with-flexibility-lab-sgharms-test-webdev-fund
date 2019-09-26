@@ -54,16 +54,16 @@ end
 
 def gross_per_studio(collection)
   # GOAL: Given an Array of Hashes where each Hash represents a movie,
-  # create a 
+  # return a Hash that includes the total worldwide_gross of all the movies from
+  # each studio.
   #
   # INPUT:
-  #
   # * collection: Array of Hashes where each Hash where each Hash represents a movie
   #
-  # OUTPUT:
+  # RETURN:
   #
-  # * Hash whose keys are the studio names and whose values are the sum
-  #   total of all the worldwide_gross numbers for every movie in the input Hash
+  # Hash whose keys are the studio names and whose values are the sum
+  # total of all the worldwide_gross numbers for every movie in the input Hash
 end
 
 def movies_with_directors_set(source)
@@ -76,8 +76,7 @@ def movies_with_directors_set(source)
   # RETURN:
   #
   # Array of Arrays containing all of a director's movies. Each movie will need
-  # to have a :director_name key added to it. You should use the provided
-  # do that work in the movies_with_director_key method
+  # to have a :director_name key added to it.
 end
 
 # ----------------    End of Your Code Region --------------------
