@@ -34,39 +34,38 @@ describe 'movies_with_director_key' do
 end
 
 describe 'movies_with_directors_set' do
-  describe 'creates AoA of Hashes describing movies and each movie has a :director_name key' do
-    it 'correctly sets Byron Poodle as director of the first film' do
-      # { :name => "A", :movies => [{ :title => "Test" }] }
-      # becomes... [[{:title => "Test", :director_name => "A"}]]
-      test_data = [
-        { :name => "Byron Poodle", :movies => [
-          { :title => "At the park" },
-          { :title => "On the couch" },
-        ]
-        },
-        { :name => "Nancy Drew", :movies => [
-          { :title => "Biting" },
-        ]
+  describe 'when given a Hash with keys :name and :movies,' do
+    describe 'returns an Array of Hashes that represent movies' do
+      describe 'and each Hash has a :director_name key set with the value that was in :name' do
+        # This lets "sample_data" be used in the two "it" statements below
+        let (:sample_data) {
+          [
+            { :name => "Byron Poodle", :movies => [
+              { :title => "At the park" },
+              { :title => "On the couch" },
+            ]
+            },
+            { :name => "Nancy Drew", :movies => [
+              { :title => "Biting" },
+            ]
+            }
+          ] 
         }
-      ]
-      results = movies_with_directors_set(test_data)
-      expect(results.first.first[:director_name]).to eq("Byron Poodle")
-    end
-    it 'correctly sets Nancy Drew as director of the last film' do
-      test_data = [
-        { :name => "Byron Poodle", :movies => [
-          { :title => "At the park" },
-          { :title => "On the couch" },
-        ]
-        },
-        { :name => "Nancy Drew", :movies => [
-          { :title => "Biting" },
-        ]
-        }
-      ]
-      results = movies_with_directors_set(test_data)
 
-      expect(results.last.first[:director_name]).to eq("Nancy Drew")
+        it 'correctly "distributes" Byron Poodle as :director_name of the first film' do
+          # { :name => "A", :movies => [{ :title => "Test" }] }
+          # becomes... [[{:title => "Test", :director_name => "A"}], ...[], ... []]
+          results = movies_with_directors_set(test_data)
+          expect(results.first.first[:director_name]).to eq("Byron Poodle"),
+            "The first element of the AoA should have 'Byron Poodle' as :director_name"
+        end
+
+        it 'correctly "distributes" Nancy Drew as :director_name of the last film' do
+          results = movies_with_directors_set(test_data)
+          expect(results.last.first[:director_name]).to eq("Nancy Drew"),
+            "The last element of the AoA should have 'Nancy Drew' as :director_name"
+        end
+      end
     end
   end
 end

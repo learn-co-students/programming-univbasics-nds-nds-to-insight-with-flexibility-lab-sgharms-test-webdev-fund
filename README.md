@@ -264,8 +264,13 @@ You're only responsible for implementing the methods
 You're welcome to use methods that we've provided in your implementations.
 They're "helpers." You might not need them. In time, you'll discover that Ruby
 provides these tools for you! But you'll learn about _that_ when you learn
-about Ruby's Enumerables :). Amazingly, skilled Rubyists can do most of this
-work in about 10 lines of code.
+about Ruby's Enumerables :).
+
+Use everything you know about programming: pretty-print arguments at the
+beginning of a method, make sure you understand the data structure, write
+scratch code in separate files, test expressions in IRB. This lesson is
+definitely one of the most challenging ones you'll see &mdash; but it's also
+the most like the daily work programmers do!
 
 Details about the arguments and the expected return tyhpes are provided in
 comments in `lib/nds_extract.rb`.
