@@ -34,7 +34,7 @@ describe 'movies_with_director_key' do
 end
 
 describe 'movies_with_directors_set' do
-  describe 'creates AoA of Hashes describing movies and each movie has a :director key' do
+  describe 'creates AoA of Hashes describing movies and each movie has a :director_name key' do
     it 'correctly sets Byron Poodle as director of the first film' do
       # { :name => "A", :movies => [{ :title => "Test" }] }
       # becomes... [[{:title => "Test", :director_name => "A"}]]
