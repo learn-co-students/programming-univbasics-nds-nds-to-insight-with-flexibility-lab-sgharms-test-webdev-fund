@@ -38,7 +38,7 @@ describe 'movies_with_directors_set' do
     describe 'returns an Array of Hashes that represent movies' do
       describe 'and each Hash has a :director_name key set with the value that was in :name' do
         # This lets "sample_data" be used in the two "it" statements below
-        let (:sample_data) {
+        let (:test_data) {
           [
             { :name => "Byron Poodle", :movies => [
               { :title => "At the park" },
