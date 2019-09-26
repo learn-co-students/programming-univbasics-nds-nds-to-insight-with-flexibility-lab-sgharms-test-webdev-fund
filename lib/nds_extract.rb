@@ -1,5 +1,4 @@
 # Provided, don't edit
-$LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'directors_database'
 
 # A method we're giving you. This "flattens"  Arrays of Arrays so: [[1,2],
