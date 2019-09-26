@@ -250,14 +250,15 @@ be yours to edit***. That method, `studios_totals`, uses the methods listed
 above. This will help train you up for the very-real-world case of modifying
 pre-existing code.
 
-You're only responsible for implementing the methods, but are invited to use
-the helper methods we've provided:
+You're only responsible for implementing the methods
 
 * `movies_with_director_key(name, movies_collection)`; is used by
   `movies_with_directors_set`
 * `movies_with_directors_set(source)`
 * `gross_per_studio(collection)`
 
+You're welcome to use methods that we've provided in your implementations.
+They're "helpers." You might not need them.
 
 Details about the arguments and the expected return tyhpes are provided in
 comments in `lib/nds_extract.rb`.

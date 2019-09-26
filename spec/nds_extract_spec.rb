@@ -34,7 +34,9 @@ describe 'movies_with_director_key' do
 end
 
 describe 'movies_with_directors_set' do
-  it 'derp' do
+  it 'creates AoA of Hashes describing movies and each movie has a :director key' do
+    # { :name => "A", :movies => [{ :title => "Test" }] }
+    # becomes... [[{:title => "Test", :director => "A"}]]
     test_data = [
       { :name => "Byron Poodle", :movies => [
         { :title => "At the park" },
@@ -46,7 +48,9 @@ describe 'movies_with_directors_set' do
       ]
       }
     ]
-    movies_with_directors_set(test_data)
+    results = movies_with_directors_set(test_data)
+    expect(results.first.first[:director]).to eq("Byron Poodle")
+    expect(results.first.first[:director]).to eq("Nancy Drew")
   end
 end
 
