@@ -10,9 +10,9 @@ So far, we've seen the power of wrapping "primitive" Ruby calls in methods.
 We've also seen the power of wrapping "First-Order" methods inside other
 methods.
 
-This practice of constructing programs is **superior** since it helps
-readability and maintainability compared to "writing one big old set of nested
-loops."
+This practice of constructing programs is **superior** to writing one "big old
+mess of code," like we saw in Step 2, since it improves readability and
+maintainability.
 
 Sometimes though it's not so clear how to get from a _given_ NDS to the NDS
 that we might need. It's easy to to feel "stuck." It happens to programmers all
@@ -23,25 +23,28 @@ and get _one_ tiny step closer to the final goal &mdash; even if we can't see
 the finish line. Or, maybe we need to hard-code or type an example of the goal
 and work backwards from it.  We like to call this approach the "see-saw"
 approach (or "teeter-totter"). The idea is that Ruby is your partner on the
-see-saw: you get a step closer to the solution, it gets a step away from the
+see-saw: you get a step closer to the solution, it gets a step _away_ from the
 solution _toward you_, back-and-forth until you meet in the middle and share in
 the glory of a job well done.
 
 ## See-saw Between Bottom-up and Top-down Method Writing
 
-Lets consider our vending machine. Snacks, as we have seen, know how many
-pieces they have. The _insight_ we'd like to have is:
+Lets consider our vending machine. Snacks, as we have seen, know how much they
+cost.
 
-> How many snacks have `1` piece, how many have `2` pieces, `3`, `999`, `1000`,
-> etc.
+The _insight_ we'd like to have is:
 
-So we'd like a `Hash` where the keys are `Integer`s representing "piece-count"
-and the keys' values are the "number of snacks with that many pieces."
+> How many snacks exist at the various price points? Do we have a few "heavy
+> hitter" snacks? Or are most snacks a similar price. This might help us adjust
+> our pricing strategy.
+
+So we'd like a `Hash` where the keys are `Integer`s representing price and the
+keys' values are the "number of snacks at that price."
 
 Recalling the effort we took to print out and understand the vending machine
-NDS, we know that the NDS is not set up to give us that information easily
-(that's why Step 1 is so important!)  We need to _transform_ the _given_ NDS
-into something else, a _new_ NDS, that allows us to derive _insights_ from
+NDS in Step 1, we know that the NDS is not set up to give us that information
+easily (that's why Step 1 is so important!)  We need to _transform_ the _given_
+NDS into something else, a _new_ NDS, that allows us to derive _insights_ from
 _it_.
 
 > **REAL-LIFE PROGRAMMING ESSENTIAL**: This very much mirrors some real-world
@@ -53,28 +56,30 @@ _it_.
 
 This transformation is **not** simple. It will require multiple steps. Instead
 of locking ourselves into solving the problem by starting from the _given_ NDS
-and working to the end, we're going to be flexible. We'll work from our _given_
-NDS, and we'll work backward from an imagined, desired _answer_ NDS.
+and working to the end, we're going to be **flexible**. We'll work from our
+_given_ NDS, and we'll work backward from an imagined, desired _answer_ NDS.
 
 ### See-...
 
 ```ruby
-vm = [[[{:name=>"Vanilla Cookies", :pieces=>3}, {:name=>"Pistachio Cookies",
-:pieces=>3}, {:name=>"Chocolate Cookies", :pieces=>3}, {:name=>"Chocolate Chip
-Cookies", :pieces=>3}], [{:name=>"Tooth-Melters", :pieces=>12},
-{:name=>"Tooth-Destroyers", :pieces=>12}, {:name=>"Enamel Eaters",
-:pieces=>12}, {:name=>"Dentist's Nighmare", :pieces=>20}], [{:name=>"Gummy Sour
-Apple", :pieces=>3}, {:name=>"Gummy Apple", :pieces=>5}, {:name=>"Gummy Moldy
-Apple", :pieces=>1}]], [[{:name=>"Grape Drink", :pieces=>1}, {:name=>"Orange
-Drink", :pieces=>1}, {:name=>"Pineapple Drink", :pieces=>1}], [{:name=>"Mints",
-:pieces=>13}, {:name=>"Curiously Toxic Mints", :pieces=>1000}, {:name=>"US
-Mints", :pieces=>99}]]]
+vm = [[[{:name=>"Vanilla Cookies", :price=>3}, {:name=>"Pistachio Cookies",
+:price=>3}, {:name=>"Chocolate Cookies", :price=>3}, {:name=>"Chocolate Chip
+Cookies", :price=>3}], [{:name=>"Tooth-Melters", :price=>12},
+{:name=>"Tooth-Destroyers", :price=>12}, {:name=>"Enamel Eaters",
+:price=>12}, {:name=>"Dentist's Nighmare", :price=>20}], [{:name=>"Gummy Sour
+Apple", :price=>3}, {:name=>"Gummy Apple", :price=>5}, {:name=>"Gummy Moldy
+Apple", :price=>1}]], [[{:name=>"Grape Drink", :price=>1}, {:name=>"Orange
+Drink", :price=>1}, {:name=>"Pineapple Drink", :price=>1}], [{:name=>"Mints",
+:price=>13}, {:name=>"Curiously Toxic Mints", :price=>1000}, {:name=>"US
+Mints", :price=>99}]]]
 ```
 
-Look at the _given_ NDS. Where are the `:pieces` data? How can we get to them?
-Here you can use the knowledge you gained from "Step 1:  Understand the NDS"
-and "Step 2: Use `[]` to verify your understanding from Step 1" to confirm your
-understanding of the _given_ NDS.
+Look at the _given_ NDS. Where are the `:price` data? How can we get to them?
+Here you can use the knowledge you gained from "Step 2: Use `[]` to verify your
+understanding from Step 1" to confirm that you know how to get the data you
+need.
+
+Let's hop to the finish line and work backwards for a moment.
 
 ### -Saw...
 
@@ -97,26 +102,26 @@ easy.
 Could we get to a world where we have only one big-old `Array` of the snack
 `Hash`es?
 
-_If we could_, we could cut out the whole "row" and "column" noise . Then, for
-each snack, We could find out how many pieces are in the snack and use that
-`:piece` `Integer` as a key. Then for each snack with that same `:piece`
-`Integer`, we could increment a "times seen" number by one.
+_If had that_, we could cut out the whole "row" and "column" noise. Then, for
+each snack, we create a `Hash` key for that price and then keep a counter for
+the `Hash`'s value.
 
-Let's aim to make that happen by transforming the _given_ NDS.
+Let's aim to make that happen by transforming the _given_ NDS. We'll hop back
+to the beginning and get ti this mid-point.
 
 ### See-...
 
 ```ruby
-vm = [[[{:name=>"Vanilla Cookies", :pieces=>3}, {:name=>"Pistachio Cookies",
-:pieces=>3}, {:name=>"Chocolate Cookies", :pieces=>3}, {:name=>"Chocolate Chip
-Cookies", :pieces=>3}], [{:name=>"Tooth-Melters", :pieces=>12},
-{:name=>"Tooth-Destroyers", :pieces=>12}, {:name=>"Enamel Eaters",
-:pieces=>12}, {:name=>"Dentist's Nighmare", :pieces=>20}], [{:name=>"Gummy Sour
-Apple", :pieces=>3}, {:name=>"Gummy Apple", :pieces=>5}, {:name=>"Gummy Moldy
-Apple", :pieces=>1}]], [[{:name=>"Grape Drink", :pieces=>1}, {:name=>"Orange
-Drink", :pieces=>1}, {:name=>"Pineapple Drink", :pieces=>1}], [{:name=>"Mints",
-:pieces=>13}, {:name=>"Curiously Toxic Mints", :pieces=>1000}, {:name=>"US
-Mints", :pieces=>99}]]]
+vm = [[[{:name=>"Vanilla Cookies", :price=>3}, {:name=>"Pistachio Cookies",
+:price=>3}, {:name=>"Chocolate Cookies", :price=>3}, {:name=>"Chocolate Chip
+Cookies", :price=>3}], [{:name=>"Tooth-Melters", :price=>12},
+{:name=>"Tooth-Destroyers", :price=>12}, {:name=>"Enamel Eaters",
+:price=>12}, {:name=>"Dentist's Nighmare", :price=>20}], [{:name=>"Gummy Sour
+Apple", :price=>3}, {:name=>"Gummy Apple", :price=>5}, {:name=>"Gummy Moldy
+Apple", :price=>1}]], [[{:name=>"Grape Drink", :price=>1}, {:name=>"Orange
+Drink", :price=>1}, {:name=>"Pineapple Drink", :price=>1}], [{:name=>"Mints",
+:price=>13}, {:name=>"Curiously Toxic Mints", :price=>1000}, {:name=>"US
+Mints", :price=>99}]]]
 
 def snack_collection(machine)
   collection = []
@@ -144,18 +149,16 @@ p snack_collection(vm)
 Outputs:
 
 ```ruby
-[{:name=>"Vanilla Cookies", :pieces=>3}, {:name=>"Pistachio Cookies", :pieces=>3}, {:name=>"Chocolate Cookies", :pieces=>3}, {:name=>"Chocolate Chip\nCookies", :pieces=>3}, {:name=>"Tooth-Melters", :pieces=>12}, {:name=>"Tooth-Destroyers", :pieces=>12}, {:name=>"Enamel Eaters", :pieces=>12}, {:name=>"Dentist's Nighmare", :pieces=>20}, {:name=>"Gummy Sour\nApple", :pieces=>3}, {:name=>"Gummy Apple", :pieces=>5}, {:name=>"Gummy Moldy\nApple", :pieces=>1}, {:name=>"Grape Drink", :pieces=>1}, {:name=>"Orange\nDrink", :pieces=>1}, {:name=>"Pineapple Drink", :pieces=>1}, {:name=>"Mints", :pieces=>13}, {:name=>"Curiously Toxic Mints", :pieces=>1000}, {:name=>"US\nMints", :pieces=>99}]
+[{:name=>"Vanilla Cookies", :price=>3}, {:name=>"Pistachio Cookies", :price=>3}, {:name=>"Chocolate Cookies", :price=>3}, {:name=>"Chocolate Chip\nCookies", :price=>3}, {:name=>"Tooth-Melters", :price=>12}, {:name=>"Tooth-Destroyers", :price=>12}, {:name=>"Enamel Eaters", :price=>12}, {:name=>"Dentist's Nighmare", :price=>20}, {:name=>"Gummy Sour\nApple", :price=>3}, {:name=>"Gummy Apple", :price=>5}, {:name=>"Gummy Moldy\nApple", :price=>1}, {:name=>"Grape Drink", :price=>1}, {:name=>"Orange\nDrink", :price=>1}, {:name=>"Pineapple Drink", :price=>1}, {:name=>"Mints", :price=>13}, {:name=>"Curiously Toxic Mints", :price=>1000}, {:name=>"US\nMints", :price=>99}]
 ```
-
-Let's give this `Array` a name to make this lesson clearer, let's call this the
-"Snacks Collection"
 
 > **Reflect** Are there methods you think we should extract from this code? If
 > so, try writing some methods and make sure you get the same output!
 
-Not bad, right! Using some simple iteration we were able to transform the
-_given_ NDS into something that is our midpoint. Now all we need to do is
-finish the path from our midpoint to the goal NDS.
+Not bad! Using some simple iteration we were able to transform the _given_ NDS
+into something that is our mid-point. Now all we need to do is finish the path
+from our midpoint to the goal NDS. We know conceptually that that is already
+possible. We should feel very confident now and maybe even a little bit smug.
 
 ### -Saw...
 
@@ -169,19 +172,20 @@ We know we want a `Hash` like:
 }
 ```
 
-Let's transform that snacks `Array` into the "Summary `Hash`".
+Let's transform that snacks `Array` we just calculated into the "Summary
+`Hash`" we _want_.
 
 ```ruby
-vm = [[[{:name=>"Vanilla Cookies", :pieces=>3}, {:name=>"Pistachio Cookies",
-:pieces=>3}, {:name=>"Chocolate Cookies", :pieces=>3}, {:name=>"Chocolate Chip
-Cookies", :pieces=>3}], [{:name=>"Tooth-Melters", :pieces=>12},
-{:name=>"Tooth-Destroyers", :pieces=>12}, {:name=>"Enamel Eaters",
-:pieces=>12}, {:name=>"Dentist's Nighmare", :pieces=>20}], [{:name=>"Gummy Sour
-Apple", :pieces=>3}, {:name=>"Gummy Apple", :pieces=>5}, {:name=>"Gummy Moldy
-Apple", :pieces=>1}]], [[{:name=>"Grape Drink", :pieces=>1}, {:name=>"Orange
-Drink", :pieces=>1}, {:name=>"Pineapple Drink", :pieces=>1}], [{:name=>"Mints",
-:pieces=>13}, {:name=>"Curiously Toxic Mints", :pieces=>1000}, {:name=>"US
-Mints", :pieces=>99}]]]
+vm = [[[{:name=>"Vanilla Cookies", :price=>3}, {:name=>"Pistachio Cookies",
+:price=>3}, {:name=>"Chocolate Cookies", :price=>3}, {:name=>"Chocolate Chip
+Cookies", :price=>3}], [{:name=>"Tooth-Melters", :price=>12},
+{:name=>"Tooth-Destroyers", :price=>12}, {:name=>"Enamel Eaters",
+:price=>12}, {:name=>"Dentist's Nighmare", :price=>20}], [{:name=>"Gummy Sour
+Apple", :price=>3}, {:name=>"Gummy Apple", :price=>5}, {:name=>"Gummy Moldy
+Apple", :price=>1}]], [[{:name=>"Grape Drink", :price=>1}, {:name=>"Orange
+Drink", :price=>1}, {:name=>"Pineapple Drink", :price=>1}], [{:name=>"Mints",
+:price=>13}, {:name=>"Curiously Toxic Mints", :price=>1000}, {:name=>"US
+Mints", :price=>99}]]]
 
 def snack_collection(machine)
   flat_snack_collection = []
@@ -203,20 +207,20 @@ def snack_collection(machine)
   flat_snack_collection
 end
 
-
-def summary_snack_count_by_pieces(snacks)
+def summary_snack_count_by_prices(snacks)
   result = {}
   i = 0
 
   while i < snacks.length do
+    # For readability, let's save this lookup to somethign meaningful
     snack_name = snacks[i][:name]
-    snack_pieces = snacks[i][:pieces]
+    snack_price = snacks[i][:price]
     # If there's no key for this number, add the number as a key and assign it
-    # a new Array for holding future snacks with that number of pieces.
-    if !result[snack_pieces]
-      result[snack_pieces] = 1
+    # a new Array for holding future snacks with that price
+    if !result[snack_price]
+      result[snack_price] = 1
     else
-      result[snack_pieces] += 1
+      result[snack_price] += 1
     end
     i += 1
   end
@@ -224,9 +228,9 @@ def summary_snack_count_by_pieces(snacks)
   result
 end
 
-pieces_collection = snack_collection(vm)
-p summary_snack_count_by_pieces(pieces_collection) #=>
-  {3=>5, 12=>3, 20=>1, 5=>1, 1=>4, 13=>1, 1000=>1, 99=>1}
+snacks = snack_collection(vm)
+p summary_snack_count_by_prices(snacks)
+#=>  {3=>5, 12=>3, 20=>1, 5=>1, 1=>4, 13=>1, 1000=>1, 99=>1}
 ```
 
 Look at that! We have that thing we wanted! We've used the see-saw technique to
@@ -258,7 +262,10 @@ You're only responsible for implementing the methods
 * `gross_per_studio(collection)`
 
 You're welcome to use methods that we've provided in your implementations.
-They're "helpers." You might not need them.
+They're "helpers." You might not need them. In time, you'll discover that Ruby
+provides these tools for you! But you'll learn about _that_ when you learn
+about Ruby's Enumerables :). Amazingly, skilled Rubyists can do most of this
+work in about 10 lines of code.
 
 Details about the arguments and the expected return tyhpes are provided in
 comments in `lib/nds_extract.rb`.
